@@ -83,7 +83,7 @@ def request(host, path, url_params=None):
 
     return response
 
-def search(term, location):
+def search(term, location, limit=SEARCH_LIMIT):
     """Query the Search API by a search term and location.
 
     Args:
@@ -97,7 +97,7 @@ def search(term, location):
     url_params = {
         'term': term.replace(' ', '+'),
         'location': location.replace(' ', '+'),
-        'limit': SEARCH_LIMIT
+        'limit': limit
     }
     return request(API_HOST, SEARCH_PATH, url_params=url_params)
 
@@ -114,14 +114,14 @@ def get_business(business_id):
 
     return request(API_HOST, business_path)
 
-def query_api(term, location):
+def query_api(term, location, limit=SEARCH_LIMIT):
     """Queries the API by the input values from the user.
 
     Args:
         term (str): The search term to query.
         location (str): The location of the business to query.
     """
-    response = search(term, location)
+    response = search(term, location, limit)
 
     businesses = response.get('businesses')
 
@@ -129,15 +129,6 @@ def query_api(term, location):
         print u'No businesses for {0} in {1} found.'.format(term, location)
         return
 
-    # business_id = businesses[0]['id']
-
-    # print u'{0} businesses found, querying business info for the top result "{1}" ...'.format(
-    #     len(businesses),
-    #     business_id
-    # )
-
-    # response = get_business(business_id)
-    pprint.pprint(response)
     return response
     
 

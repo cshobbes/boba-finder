@@ -1,5 +1,6 @@
 from bottle import route, run, view
 import yelp
+import pprint
 
 @route('/hello')
 def hello():
@@ -8,8 +9,10 @@ def hello():
 @route('/boba')
 @view('boba_template')
 def boba():
-    response = yelp.query_api("Bubble Tea", "Mountain View, CA")
+    response = yelp.query_api("Bubble Tea", "Mountain View, CA", 5)
     businesses = response.get('businesses')
+
+    pprint.pprint(businesses)
 
     return dict(businesses=businesses)
 
